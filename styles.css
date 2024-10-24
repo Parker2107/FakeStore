@@ -2,5 +2,27 @@
 {
     color: red;
     font-size: 30px;
-    text-align: center;
+    text-align: left;
+    padding-left: 1%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+.firstl
+{
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
+#searchbar
+{
+    padding: 10px 20% 10px 20px;
+    font-size: 20px;
+    text-align: left;
+}
+#lastname
+{
+    padding-right: 10%;
+}
+header
+{
+    background-color: grey;
 }
