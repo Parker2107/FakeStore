@@ -90,11 +90,23 @@
                     slides[slideIndex-1].style.display = "block";  
                     dots[slideIndex-1].className += " active";
                 }
-            </script>>
+            </script>
             
             <br>
-            <div id="products" class="boxx">
-            
+            <div>
+                Electronics
+            </div>
+            <div id="products1" class="boxx">
+                <span id="elecproduct" class="boxx">
+                    <br>
+                </span>
+                <br>
+                <span id="jewproduct" class="boxx"></span>
+            </div>
+            <br>
+            <div id="products2" class="boxx">
+                <span id="mensproduct" class="boxx"></span>
+                <span id="womenproduct" class="boxx"></span>
             </div>
             
             <script>
@@ -111,29 +123,29 @@
                     .then(json=>
                     {
                         console.log(json);
-                        displayProducts(json);
+                        displayelecProducts(json);
                     })
                     .catch(err => console.error("Error fetching data: ", err));
                 }
-                function jewproducts() 
+                function jewproducts()
                 {
-                    fetch('https://fakestoreapi.com/products/category/jewelry?limit=4')
+                    fetch('https://fakestoreapi.com/products/category/jewelery')
                     .then(res=>res.json())
                     .then(json=>
                     {
                         console.log(json);
-                        displayProducts(json);
+                        displayjewProducts(json);
                     })
                     .catch(err => console.error("Error fetching data: ", err));
                 }
                 function menproducts() 
                 {
-                    fetch('https://fakestoreapi.com/products/category/mensclothing?limit=4')
+                    fetch('https://fakestoreapi.com/products/category/menclothing?limit=4')
                     .then(res=>res.json())
                     .then(json=>
                     {
                         console.log(json);
-                        displayProducts(json);
+                        displaymenProducts(json);
                     })
                     .catch(err => console.error("Error fetching data: ", err));
                 }
@@ -144,13 +156,13 @@
                     .then(json=>
                     {
                         console.log(json);
-                        displayProducts(json);
+                        displaywomenProducts(json);
                     })
                     .catch(err => console.error("Error fetching data: ", err));
                 }
-                function displayProducts(allprod)
+                function displaywomenProducts(allprod)
                 {
-                    const products=document.getElementById("products");
+                    const products=document.getElementById("womenproduct");
                     products.innerHTML= '';
                     allprod.forEach(product => {
                         const productDiv = document.createElement("div");
@@ -164,7 +176,56 @@
                         products.appendChild(productDiv);
                     });
                 }
-                function myFunction() 
+                function displayelecProducts(allprod)
+                {
+                    const products=document.getElementById("elecproduct");
+                    products.innerHTML= '';
+                    allprod.forEach(product => {
+                        const productDiv = document.createElement("div");
+                        productDiv.className = "smallboxx";
+                        productDiv.innerHTML = `
+                            <div class="card-body">
+                                <h5 class="card-title">${product.title}</h5>
+                                <p class="card-text"><strong>Price:</strong> $${product.price}</p>
+                            </div>
+                        `;
+                        products.appendChild(productDiv);
+                    });
+                }
+                function displayjewProducts(allprod)
+                {
+                    const products=document.getElementById("jewproduct");
+                    products.innerHTML= '';
+                    allprod.forEach(product => 
+                    {
+                        const productDiv = document.createElement("div");
+                        productDiv.className = "smallboxx";
+                        productDiv.innerHTML = `
+                            <div class="card-body">
+                                <h5 class="card-title">${product.title}</h5>
+                                <p class="card-text"><strong>Price:</strong> $${product.price}</p>
+                            </div>
+                        `;
+                        products.appendChild(productDiv);
+                    });
+                }
+                function displaymenProducts(allprod)
+                {
+                    const products=document.getElementById("mensproduct");
+                    products.innerHTML= '';
+                    allprod.forEach(product => {
+                        const productDiv = document.createElement("div");
+                        productDiv.className = "smallboxx";
+                        productDiv.innerHTML = `
+                            <div class="card-body">
+                                <h5 class="card-title">${product.title}</h5>
+                                <p class="card-text"><strong>Price:</strong> $${product.price}</p>
+                            </div>
+                        `;
+                        products.appendChild(productDiv);
+                    });
+                }
+                function myFunction()
                 {
                     var x = document.getElementsByClassName("smallboxx");
                     for (var i=0; i<x.length; i++)
