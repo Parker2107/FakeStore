@@ -4,8 +4,42 @@
     box-sizing: border-box;
 }
 
+/* Base Styles */
 body {
     font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.content {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+/* Button Styling */
+#dark-mode-toggle {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    padding: 8px 12px;
+    background-color: #2e2f31;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#dark-mode-toggle:hover {
+    background-color: #0056b3;
 }
 
 header 

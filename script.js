@@ -4,9 +4,8 @@ const API_URL = "https://fakestoreapi.com/products";
 // Function to fetch products based on categories
 async function fetchCategoryProducts(category) {
     try {
-        const response = await fetch(`${API_URL}/category/${category}`);
+        const response = await fetch(`https://fakestoreapi.com/products/category/${category}`);
         const products = await response.json();
-
         displayProducts(products, category);
     } catch (error) {
         console.error("Error fetching category products:", error);
@@ -33,13 +32,15 @@ function displayProducts(products, category) {
     products.forEach(product => {
         const productCard = document.createElement("div");
         productCard.className = "product-card";
+        const productId = product.id;  // Use product ID for details
 
         productCard.innerHTML = `
             <img class="productimg" src="${product.image}" alt="${product.title}">
             <h3>${product.title}</h3>
             <p>$${product.price}</p>
-            <button class="details-button" onclick="fetchDetails(productId)">View Details</button>
-            <p class="description" id="desc-productId" style="display: none;"></p> <!-- Description container -->
+            <button class="details-button" onclick="fetchDetails(${productId})">View Details</button>
+            <br>
+            <p class="description" id="desc-${productId}" style="display: none;"></p> <!-- Description container -->
         `;
 
         categoryProductsContainer.appendChild(productCard);
@@ -72,13 +73,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 3000);
 });
 
-function searchProducts() 
-{
+// Search functionality
+function searchProducts() {
     const searchQuery = document.getElementById("searchbar").value.toLowerCase();
     const allProductCards = document.querySelectorAll(".product-card");
     
-    allProductCards.forEach(card => 
-    {
+    allProductCards.forEach(card => {
         const title = card.querySelector("h3").textContent.toLowerCase();
         card.style.display = title.includes(searchQuery) ? "block" : "none";
     });
@@ -96,7 +96,13 @@ function fetchDetails(productId) {
             // Find the description container by productId and insert the description
             const descriptionElem = document.getElementById(`desc-${productId}`);
             descriptionElem.textContent = data.description;
-            descriptionElem.style.display = 'block';  // Show the description
+
+            if (descriptionElem.style.display === 'block') {
+                descriptionElem.style.display = 'none';  // Hide the description
+            } else {
+                descriptionElem.textContent = data.description;  // Set the description text
+                descriptionElem.style.display = 'block';  // Show the description
+            }
         })
         .catch(error => console.error('Error fetching product details:', error));
 }
@@ -138,4 +144,27 @@ function displayUserInfo(user) {
 }
 
 // Call the fetchUserData function when the page loads
-window.onload = fetchUserData;
+window.onload = () => {
+    fetchUserData();
+    initializeDarkMode();  // Ensure dark mode is initialized on load
+};
+
+// Function to toggle dark mode
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    
+    // Save the current mode to localStorage
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+}
+
+// Function to initialize dark mode based on saved preference
+function initializeDarkMode() {
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+    }
+}
+
+// Event listener for the dark mode button
+document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
