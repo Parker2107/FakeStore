@@ -7,9 +7,7 @@ async function fetchCategoryProducts(category) {
         const response = await fetch(`${API_URL}/category/${category}`);
         const products = await response.json();
 
-        // Limit to 4 products per category
-        const limitedProducts = products.slice(0, 4);
-        displayProducts(limitedProducts, category);
+        displayProducts(products, category);
     } catch (error) {
         console.error("Error fetching category products:", error);
     }
@@ -40,6 +38,8 @@ function displayProducts(products, category) {
             <img class="productimg" src="${product.image}" alt="${product.title}">
             <h3>${product.title}</h3>
             <p>$${product.price}</p>
+            <button class="details-button" onclick="fetchDetails(productId)">View Details</button>
+            <p class="description" id="desc-productId" style="display: none;"></p> <!-- Description container -->
         `;
 
         categoryProductsContainer.appendChild(productCard);
@@ -71,3 +71,71 @@ document.addEventListener("DOMContentLoaded", () => {
       currentIndex = (currentIndex + 1) % slides.length;
   }, 3000);
 });
+
+function searchProducts() 
+{
+    const searchQuery = document.getElementById("searchbar").value.toLowerCase();
+    const allProductCards = document.querySelectorAll(".product-card");
+    
+    allProductCards.forEach(card => 
+    {
+        const title = card.querySelector("h3").textContent.toLowerCase();
+        card.style.display = title.includes(searchQuery) ? "block" : "none";
+    });
+}
+
+// Function to fetch product details
+function fetchDetails(productId) {
+    // URL for the specific product, using the productId to fetch the correct item
+    const url = `https://fakestoreapi.com/products/${productId}`;
+    
+    // Fetch the product details
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            // Find the description container by productId and insert the description
+            const descriptionElem = document.getElementById(`desc-${productId}`);
+            descriptionElem.textContent = data.description;
+            descriptionElem.style.display = 'block';  // Show the description
+        })
+        .catch(error => console.error('Error fetching product details:', error));
+}
+
+// Fetch user data from the FakeStore API
+function fetchUserData() {
+    fetch('https://fakestoreapi.com/users/1')
+        .then(response => response.json())
+        .then(data => displayUserInfo(data))
+        .catch(error => console.error('Error fetching user data:', error));
+}
+
+// Display user information on the page
+function displayUserInfo(user) {
+    const userInfoDiv = document.getElementById('user-info');
+    
+    userInfoDiv.innerHTML = `
+        <div class="user-details">
+            <label>Name:</label>
+            <p>${user.name.firstname} ${user.name.lastname}</p>
+        </div>
+        <div class="user-details">
+            <label>Username:</label>
+            <p>${user.username}</p>
+        </div>
+        <div class="user-details">
+            <label>Email:</label>
+            <p>${user.email}</p>
+        </div>
+        <div class="user-details">
+            <label>Phone:</label>
+            <p>${user.phone}</p>
+        </div>
+        <div class="user-details">
+            <label>Address:</label>
+            <p>${user.address.number} ${user.address.street}, ${user.address.city}, ${user.address.zipcode}</p>
+        </div>
+    `;
+}
+
+// Call the fetchUserData function when the page loads
+window.onload = fetchUserData;

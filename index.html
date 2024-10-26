@@ -9,23 +9,26 @@
 <body>
     <!-- Header Section with Search Bar -->
     <header id="blah">
-        <span class="firstl">F</span><span>a</span><span>k</span><span>e</span><span> </span><span class="firstl">S</span><span>t</span><span>o</span><span>r</span><span id="lastname">e</span>
-        <input type="text" id="searchbar" placeholder="Search products..." />
-        <button onclick="searchProducts()">Search</button>
-        <script>
-            function searchProducts() 
-            {
-                const searchQuery = document.getElementById("searchbar").value.toLowerCase();
-                const allProductCards = document.querySelectorAll(".product-card");
-                
-                allProductCards.forEach(card => 
-                {
-                    const title = card.querySelector("h3").textContent.toLowerCase();
-                    card.style.display = title.includes(searchQuery) ? "block" : "none";
-                });
-            }
-        </script>
+        <div class="header-left">
+            <a class="logo" href="index.html">
+                <span class="firstl">F</span><span style="color: skyblue">a</span><span style="color: hotpink">k</span><span style="color: yellow">e</span><span class="firstl">S</span><span style="color: lightgreen">t</span><span style="color: skyblue">o</span><span style="color: hotpink">r</span><span id="lastname">e</span>
+            </a>
+            <div class="search-container">
+                <input type="text" id="searchbar" placeholder="Search products..." />
+                <button class="searchbutton" onclick="searchProducts()">Search</button>
+            </div>
+        </div>
+        <div class="header-images">
+            <a href="account.html">
+                <img src="account.jpg" alt="image 2">
+            </a>
+            <a href="cart.html">
+                <img src="cart.jpg" alt="image 1">
+            </a>
+            <a></a>
+        </div>
     </header>
+    <br>
     <div class="slideshow-container">
     
         <div class="mySlides fade">
